@@ -5,25 +5,49 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Invoker for executing and managing commands.
- * Maintains command history for undo operations.
+ * Manages execution and undo operations for game commands using the Command pattern.
  *
- * TODO 4c: Implement executeCommand() and undoLastCommand()
+ * <p>The CommandInvoker acts as the central controller for all game actions, maintaining
+ * a history of executed commands to enable undo functionality. Essential for implementing
+ * turn reversal, replay systems, and save states in games.</p>
  *
- * This class demonstrates the Command pattern's ability to:
- * - Queue commands for execution
- * - Maintain history
- * - Support undo operations
+ * <h2>Command Pattern Implementation</h2>
+ * <ul>
+ *   <li><b>Executes commands</b> without knowing their internal implementation</li>
+ *   <li><b>Maintains history</b> using a stack (LIFO order)</li>
+ *   <li><b>Supports undo</b> by popping and reversing the last command</li>
+ *   <li><b>Decouples</b> action requests from action performers</li>
+ * </ul>
+ *
+ * <h2>Usage Example</h2>
+ * <pre>{@code
+ * CommandInvoker invoker = new CommandInvoker();
+ *
+ * // Execute actions
+ * invoker.executeCommand(new AttackCommand(warrior, enemy));
+ * invoker.executeCommand(new HealCommand(warrior, 20));
+ *
+ * // Undo last action
+ * invoker.undoLastCommand(); // Heal is reversed
+ * }</pre>
+ *
+ * @author Chris Burns
+ * @author Gabriela Scavenius
+ * @author Noella Uwayisenga
+ * @see GameCommand
  */
 public class CommandInvoker {
     private final Stack<GameCommand> commandHistory = new Stack<>();
 
     /**
-     * TODO 4c: Implement executeCommand()
+     * Executes a command and adds it to history for potential undo.
      *
-     * Requirements:
-     * 1. Execute the command: command.execute()
-     * 2. Add the command to history: commandHistory.push(command)
+     * <p>If command execution throws an exception, the command will NOT be
+     * added to history, preventing undo of failed actions.</p>
+     *
+     * @param command the command to execute (must not be null)
+     * @throws NullPointerException if command is null
+     * @see GameCommand#execute()
      */
     public void executeCommand(GameCommand command) {
         // Execute the command
@@ -34,12 +58,15 @@ public class CommandInvoker {
     }
 
     /**
-     * TODO 4c: Implement undoLastCommand()
+     * Undoes the most recently executed command and removes it from history.
      *
-     * Requirements:
-     * 1. Check if history is empty - if so, return
-     * 2. Pop the last command from history
-     * 3. Call undo() on that command
+     * <p>Safely handles empty history by returning without error. Command is
+     * removed from history whether undo succeeds or fails.</p>
+     *
+     * <p><b>Example:</b> If history contains [Attack, Heal], this undoes Heal
+     * and leaves [Attack] in history for next undo.</p>
+     *
+     * @see GameCommand#undo()
      */
     public void undoLastCommand() {
         // Check if history is empty - if so, return

@@ -3,12 +3,10 @@ package edu.trincoll.game.template;
 import edu.trincoll.game.model.Character;
 
 /**
- * Standard battle sequence - simple attack with no special actions.
+ * Standard battle sequence with simple direct attack.
+ * No special preparation or follow-up actions.
  *
- * TODO 5b: Implement performAttack()
- *
- * This concrete implementation only needs to define the attack behavior.
- * The rest of the sequence is handled by the template method.
+ * @author Chris Burns
  */
 public class StandardBattleSequence extends BattleSequence {
 

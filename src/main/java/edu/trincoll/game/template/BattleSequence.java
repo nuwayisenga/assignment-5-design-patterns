@@ -25,17 +25,12 @@ public abstract class BattleSequence {
     }
 
     /**
-     * TODO 5a: Implement the template method executeTurn()
+     * Template Method pattern for battle turn sequences.
+     * Defines turn structure: begin → prepare → attack → follow-up → end.
      *
-     * This is the Template Method - it defines the algorithm structure.
-     * Call the methods in this order:
-     * 1. beginTurn()
-     * 2. preAttackAction()
-     * 3. performAttack()
-     * 4. postAttackAction()
-     * 5. endTurn()
+     * <p>Subclasses customize specific steps without changing the sequence.</p>
      *
-     * Make this method final so subclasses can't override the sequence.
+     * @author Chris Burns
      */
     public final void executeTurn() {
         beginTurn();

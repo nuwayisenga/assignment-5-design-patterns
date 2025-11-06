@@ -44,6 +44,14 @@ tasks.jacocoTestReport {
         html.required = true
         csv.required = false
     }
+    // Exclude demo package from coverage calculation
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/demo/**")
+            }
+        })
+    )
 }
 
 tasks.jacocoTestCoverageVerification {
@@ -54,6 +62,14 @@ tasks.jacocoTestCoverageVerification {
             }
         }
     }
+    // Exclude demo package from coverage verification
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/demo/**")
+            }
+        })
+    )
 }
 
 // Add coverage verification to check task

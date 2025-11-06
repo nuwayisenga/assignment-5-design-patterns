@@ -108,8 +108,8 @@ public class Character {
     @Override
     public String toString() {
         return String.format("%s (%s) - HP: %d/%d, ATK: %d, DEF: %d",
-            name, type, stats.health(), stats.maxHealth(),
-            stats.attackPower(), stats.defense());
+                name, type, stats.health(), stats.maxHealth(),
+                stats.attackPower(), stats.defense());
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Character {
         if (o == null || getClass() != o.getClass()) return false;
         Character character = (Character) o;
         return Objects.equals(name, character.name) &&
-               type == character.type;
+                type == character.type;
     }
 
     @Override
@@ -127,8 +127,30 @@ public class Character {
     }
 
     /**
-     * Builder for creating Character instances.
-     * TODO: Students will implement this as part of the Builder pattern section.
+     * Builder for creating Character instances using the Builder pattern.
+     *
+     * <p><b>Builder Pattern Benefits:</b></p>
+     * <ul>
+     *   <li>Constructs complex objects step-by-step</li>
+     *   <li>Validates all required fields before construction</li>
+     *   <li>Provides fluent API for readable object creation</li>
+     *   <li>Prevents incomplete or invalid Character objects</li>
+     * </ul>
+     *
+     * <h2>Usage Example</h2>
+     * <pre>{@code
+     * Character hero = Character.builder()
+     *     .name("Aragorn")
+     *     .type(CharacterType.WARRIOR)
+     *     .stats(CharacterStats.create(150, 40, 30, 0))
+     *     .attackStrategy(new MeleeAttackStrategy())
+     *     .defenseStrategy(new HeavyArmorDefenseStrategy())
+     *     .build(); // Validates all fields are set
+     * }</pre>
+     *
+     * @author Gabriela Scavenius
+     * @author Noella Uwayisenga
+     * @author Chris Burns
      */
     public static class Builder {
         private String name;
@@ -163,15 +185,18 @@ public class Character {
         }
 
         /**
-         * TODO 3: Implement the build() method
+         * Validates all required fields and constructs the Character.
          *
-         * Requirements:
-         * 1. Validate that all required fields are set (name, type, stats, both strategies)
-         * 2. Throw IllegalStateException with clear message if any field is null
-         * 3. Return a new Character instance
+         * <p><b>Validation:</b> Ensures name, type, stats, attackStrategy, and
+         * defenseStrategy are all non-null before construction. This prevents
+         * creation of invalid Character objects.</p>
          *
-         * This demonstrates the Builder pattern's ability to construct complex objects
-         * while ensuring all required fields are provided before construction.
+         * <p><b>Design Rationale:</b> Fail-fast validation at build time is better
+         * than runtime errors during gameplay. This catches configuration errors
+         * immediately during development.</p>
+         *
+         * @return a new fully-configured Character instance
+         * @throws IllegalStateException if any required field is null
          */
         public Character build() {
             // Validate all required fields are non-null

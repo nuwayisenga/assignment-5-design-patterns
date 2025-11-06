@@ -6,27 +6,53 @@ import edu.trincoll.game.model.CharacterType;
 import edu.trincoll.game.strategy.*;
 
 /**
- * Factory for creating pre-configured characters.
- * Demonstrates the Factory Method pattern for object creation.
+ * Factory for creating pre-configured game characters using the Factory Method pattern.
  *
- * This class provides static factory methods that create characters
- * with appropriate stats and strategies for their type.
+ * <p>This class provides static factory methods that encapsulate the complex process
+ * of creating characters with appropriate stats, attack strategies, and defense strategies
+ * based on their character type. This centralization ensures consistency and reduces
+ * code duplication throughout the game system.</p>
+ *
+ * <h2>Factory Method Pattern Benefits</h2>
+ * <ul>
+ *   <li><b>Consistency:</b> All Warriors have identical base configuration</li>
+ *   <li><b>Maintainability:</b> Character balance changes happen in one place</li>
+ *   <li><b>Extensibility:</b> New character types can be added without modifying client code</li>
+ * </ul>
+ *
+ * <h2>Usage Example</h2>
+ * <pre>{@code
+ * // Create specific character types
+ * Character warrior = CharacterFactory.createWarrior("Conan");
+ * Character mage = CharacterFactory.createMage("Gandalf");
+ *
+ * // Or use generic factory
+ * Character rogue = CharacterFactory.createCharacter("Shadow", CharacterType.ROGUE);
+ * }</pre>
+ *
+ * @author Noella Uwayisenga
+ * @author Gabriela Scavenius
+ * @author Chris Burns
+ * @version 1.0
+ * @since Assignment 5
  */
 public class CharacterFactory {
 
     /**
-     * TODO 2a: Implement createWarrior()
+     * Creates a Warrior character optimized for melee combat and tanking.
      *
-     * Create a Warrior character with:
-     * - Type: WARRIOR
-     * - Stats: 150 max health, 40 attack power, 30 defense, 0 max mana
-     * - Attack: MeleeAttackStrategy
-     * - Defense: HeavyArmorDefenseStrategy
+     * <p><b>Warrior Characteristics:</b> High HP (150), heavy armor, strong melee damage.
+     * Warriors are frontline tanks who absorb damage and protect allies.</p>
      *
-     * Use Character.builder() to construct the character.
+     * <p><b>Strategy Composition:</b></p>
+     * <ul>
+     *   <li>Attack: MeleeAttackStrategy (20% bonus damage)</li>
+     *   <li>Defense: HeavyArmorDefenseStrategy (max 75% reduction)</li>
+     * </ul>
      *
-     * @param name The warrior's name
-     * @return A fully configured Warrior character
+     * @param name the warrior's name (must not be null or empty)
+     * @return a fully configured Warrior character ready for combat
+     * @throws NullPointerException if name is null
      */
     public static Character createWarrior(String name) {
         return Character.builder()
@@ -39,16 +65,17 @@ public class CharacterFactory {
     }
 
     /**
-     * TODO 2b: Implement createMage()
+     * Creates a Mage character specialized in magical damage and mana manipulation.
      *
-     * Create a Mage character with:
-     * - Type: MAGE
-     * - Stats: 80 max health, 60 attack power, 10 defense, 100 max mana
-     * - Attack: MagicAttackStrategy
-     * - Defense: StandardDefenseStrategy
+     * <p><b>Mage Characteristics:</b> Highest attack power (60), large mana pool (100),
+     * but low HP (80) and defense (10). Glass cannon that devastates from range.</p>
      *
-     * @param name The mage's name
-     * @return A fully configured Mage character
+     * <p><b>Mana Management:</b> Gains bonus damage based on current mana (mana/10)
+     * but consumes 10 mana per attack. Strategic mana conservation is crucial.</p>
+     *
+     * @param name the mage's name (must not be null or empty)
+     * @return a fully configured Mage character ready for combat
+     * @throws NullPointerException if name is null
      */
     public static Character createMage(String name) {
         return Character.builder()
@@ -61,16 +88,13 @@ public class CharacterFactory {
     }
 
     /**
-     * TODO 2c: Implement createArcher()
+     * Creates an Archer character balanced between damage and survivability.
      *
-     * Create an Archer character with:
-     * - Type: ARCHER
-     * - Stats: 100 max health, 50 attack power, 15 defense, 20 max mana
-     * - Attack: RangedAttackStrategy
-     * - Defense: StandardDefenseStrategy
+     * <p><b>Archer Characteristics:</b> Balanced stats with ranged attacks.
+     * Critical hit mechanic: 50% bonus damage when target HP < 30%.</p>
      *
-     * @param name The archer's name
-     * @return A fully configured Archer character
+     * @param name the archer's name (must not be null or empty)
+     * @return a fully configured Archer character ready for combat
      */
     public static Character createArcher(String name) {
         return Character.builder()
@@ -83,16 +107,13 @@ public class CharacterFactory {
     }
 
     /**
-     * TODO 2d: Implement createRogue()
+     * Creates a Rogue character focused on high sustained melee damage.
      *
-     * Create a Rogue character with:
-     * - Type: ROGUE
-     * - Stats: 90 max health, 55 attack power, 20 defense, 30 max mana
-     * - Attack: MeleeAttackStrategy
-     * - Defense: StandardDefenseStrategy
+     * <p><b>Rogue Characteristics:</b> High attack (55), moderate defense (20),
+     * aggressive melee fighter with decent survivability.</p>
      *
-     * @param name The rogue's name
-     * @return A fully configured Rogue character
+     * @param name the rogue's name (must not be null or empty)
+     * @return a fully configured Rogue character ready for combat
      */
     public static Character createRogue(String name) {
         return Character.builder()
@@ -105,18 +126,20 @@ public class CharacterFactory {
     }
 
     /**
-     * TODO 2e: Implement createCharacter()
+     * Generic factory method that creates a character of any type.
      *
-     * Factory method that creates a character of the specified type.
-     * This demonstrates the Factory Method pattern - one method that
-     * decides which concrete creation method to call.
+     * <p>Demonstrates the Factory Method pattern's delegation using Java 21
+     * switch expressions. The compiler ensures all enum values are handled.</p>
      *
-     * Use a switch expression (Java 21 feature!) to delegate to the
-     * appropriate creation method based on the type.
+     * <h3>Usage Example</h3>
+     * <pre>{@code
+     * CharacterType playerChoice = getUserSelection();
+     * Character hero = CharacterFactory.createCharacter("Hero", playerChoice);
+     * }</pre>
      *
-     * @param name The character's name
-     * @param type The type of character to create
-     * @return A character of the specified type
+     * @param name the character's name (must not be null)
+     * @param type the type of character to create (must not be null)
+     * @return a fully configured character of the specified type
      * @throws IllegalArgumentException if type is null
      */
     public static Character createCharacter(String name, CharacterType type) {

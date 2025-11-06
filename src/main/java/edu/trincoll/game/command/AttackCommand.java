@@ -3,21 +3,11 @@ package edu.trincoll.game.command;
 import edu.trincoll.game.model.Character;
 
 /**
- * Command to execute an attack from one character to another.
+ * Command to execute and undo an attack between characters.
+ * Stores damage dealt for accurate undo operation.
  *
- * TODO 4a: Implement execute() and undo()
- *
- * Requirements for execute():
- * 1. Calculate damage: attacker.attack(target)
- * 2. Apply damage: target.takeDamage(calculatedDamage)
- * 3. Store the damage dealt for potential undo
- *
- * Requirements for undo():
- * 1. Heal the target for the amount of damage that was dealt
- * 2. Use target.heal(damageDealt)
- *
- * Note: This is a simplified undo - in a real game, you'd need to
- * restore mana usage, status effects, etc.
+ * @author Chris Burns
+ * @see GameCommand
  */
 public class AttackCommand implements GameCommand {
     private final Character attacker;

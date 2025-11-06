@@ -3,11 +3,10 @@ package edu.trincoll.game.template;
 import edu.trincoll.game.model.Character;
 
 /**
- * Power attack sequence - charges up before attack, exhausted after.
+ * Power attack sequence with charge-up bonus and recoil damage.
+ * Charges 25% ATK bonus, then takes 10% max HP recoil.
  *
- * TODO 5c: Implement preAttackAction(), performAttack(), and postAttackAction()
- *
- * This demonstrates how hook methods can customize the template.
+ * @author Chris Burns
  */
 public class PowerAttackSequence extends BattleSequence {
     private int damageBonus = 0;
