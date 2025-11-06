@@ -25,7 +25,10 @@ public class StandardBattleSequence extends BattleSequence {
      */
     @Override
     protected void performAttack() {
-        // TODO 5b: Implement standard attack
-        throw new UnsupportedOperationException("TODO 5b: Implement StandardBattleSequence.performAttack()");
+        // Calculate damage: attacker.attack(defender)
+        int damage = attacker.attack(defender);
+
+        // Apply damage: defender.takeDamage(calculatedDamage)
+        defender.takeDamage(damage);
     }
 }

@@ -21,7 +21,13 @@ import edu.trincoll.game.model.Character;
 public class StandardDefenseStrategy implements DefenseStrategy {
     @Override
     public int calculateDamageReduction(Character defender, int incomingDamage) {
-        // TODO 1d: Implement standard defense calculation
-        throw new UnsupportedOperationException("TODO 1d: Implement standard defense calculation");
+        // Calculate damage reduction: defense / 2
+        int damageReduction = defender.getStats().defense() / 2;
+
+        // Actual damage = incoming damage - damage reduction
+        int actualDamage = incomingDamage - damageReduction;
+
+        // Ensure actual damage is never negative (minimum 0)
+        return Math.max(0, actualDamage);
     }
 }
