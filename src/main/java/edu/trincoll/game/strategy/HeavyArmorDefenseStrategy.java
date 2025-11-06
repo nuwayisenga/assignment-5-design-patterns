@@ -28,6 +28,23 @@ public class HeavyArmorDefenseStrategy implements DefenseStrategy {
     @Override
     public int calculateDamageReduction(Character defender, int incomingDamage) {
         // TODO 1e: Implement heavy armor defense with cap
-        throw new UnsupportedOperationException("TODO 1e: Implement heavy armor defense calculation");
+        int defense = defender.getStats().defense();
+
+        int maxReduction = (int) (incomingDamage * 0.75);
+
+        int damageReduction = defense;
+
+        if(damageReduction > maxReduction) {
+            damageReduction = maxReduction;
+        }
+
+        int actualDamage = incomingDamage - damageReduction;
+
+
+        if (actualDamage < 0) {
+            actualDamage = 0;
+        }
+
+        return actualDamage;
     }
 }

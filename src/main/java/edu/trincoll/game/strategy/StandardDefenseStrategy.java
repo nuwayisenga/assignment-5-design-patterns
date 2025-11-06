@@ -22,6 +22,14 @@ public class StandardDefenseStrategy implements DefenseStrategy {
     @Override
     public int calculateDamageReduction(Character defender, int incomingDamage) {
         // TODO 1d: Implement standard defense calculation
-        throw new UnsupportedOperationException("TODO 1d: Implement standard defense calculation");
+        int damageReduction = defender.getStats().defense()/2;
+
+        int actualDamage = incomingDamage - damageReduction;
+
+        if(actualDamage < 0) {
+            actualDamage = 0;
+        }
+
+        return actualDamage;
     }
 }

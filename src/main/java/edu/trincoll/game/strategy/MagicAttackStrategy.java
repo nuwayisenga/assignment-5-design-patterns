@@ -25,6 +25,12 @@ public class MagicAttackStrategy implements AttackStrategy {
     @Override
     public int calculateDamage(Character attacker, Character target) {
         // TODO 1b: Implement magic attack calculation
-        throw new UnsupportedOperationException("TODO 1b: Implement magic attack calculation");
+        int baseMagicDamage = attacker.getStats().attackPower();
+
+        int manaBonus = attacker.getStats().mana() / 10;
+
+        attacker.useMana(10);
+
+        return (baseMagicDamage + manaBonus);
     }
 }

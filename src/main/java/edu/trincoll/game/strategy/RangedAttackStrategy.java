@@ -31,6 +31,16 @@ public class RangedAttackStrategy implements AttackStrategy {
     @Override
     public int calculateDamage(Character attacker, Character target) {
         // TODO 1c: Implement ranged attack with critical hit logic
-        throw new UnsupportedOperationException("TODO 1c: Implement ranged attack calculation");
+        double baseDamage = attacker.getStats().attackPower();
+        baseDamage *= 0.8;
+
+        int targetHealthRatio = target.getStats().health() / target.getStats().maxHealth();
+
+        if (targetHealthRatio < 0.3) {
+            baseDamage *= 1.5;
+            return (int) baseDamage;
+        }
+
+        return (int) baseDamage;
     }
 }
